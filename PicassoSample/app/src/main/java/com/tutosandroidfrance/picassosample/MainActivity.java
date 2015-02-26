@@ -24,8 +24,39 @@ public class MainActivity extends ActionBarActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
 
         Picasso.with(getBaseContext()).load("http://i.imgur.com/DvpvklR.png")
-                .transform(new BlurTransformation(this))
+                //.transform(new BlurTransformation(this))
+                //.transform(new ResizeTransformation(50))
+                //.resize(50,50)
+                //.fit().centerCrop()
+                .fit().centerInside()
                 .into(imageView);
+    }
+
+    public class ResizeTransformation implements Transformation{
+
+        //la largeur voulue
+        private int targetWidth;
+
+        public ResizeTransformation(int width) {
+            this.targetWidth = width;
+        }
+
+        @Override
+        public Bitmap transform(Bitmap source) {
+            double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
+            int targetHeight = (int) (targetWidth * aspectRatio);
+            Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
+            if (result != source) {
+                // Same bitmap is returned if sizes are the same
+                source.recycle();
+            }
+            return result;
+        }
+
+        @Override
+        public String key() {
+            return "ResizeTransformation"+targetWidth;
+        }
     }
 
     public class BlurTransformation implements Transformation {
