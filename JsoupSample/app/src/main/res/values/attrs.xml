@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="TypefacedTextView">
+        <attr name="typeface" format="string" />
+        <attr name="allCaps" format="boolean" />
+    </declare-styleable>
+</resources>

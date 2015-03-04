@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ttf="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#e1e1e1"
+    android:padding="5dip">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:paddingBottom="5dip"
+        ttf:cardPreventCornerOverlap="false"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dip"
+            >
+
+            <ImageView
+                android:id="@+id/element_liste_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                tools:src="@mipmap/ic_launcher"
+                android:adjustViewBounds="true"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop" />
+
+            <france.android.tutos.jsoup.views.textview.TypefacedTextView
+                android:id="@+id/element_liste_titre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/element_liste_image"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                ttf:typeface="RobotoSlab-Light.ttf"
+                tools:text="Et si batman avait yatch"
+                android:layout_marginTop="5dip"
+                android:layout_marginLeft="15dip"
+                android:layout_marginRight="15dip"/>
+
+            <france.android.tutos.jsoup.views.textview.TypefacedTextView
+                android:id="@+id/element_liste_sous_titre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/element_liste_titre"
+                android:lines="4"
+                android:ellipsize="end"
+                android:textColor="@color/black75"
+                android:textSize="11sp"
+                ttf:typeface="Roboto-Light.ttf"
+                android:layout_marginTop="5dip"
+                android:layout_marginLeft="15dip"
+                android:layout_marginRight="15dip" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>
