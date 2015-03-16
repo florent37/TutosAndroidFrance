@@ -98,8 +98,4 @@ public class MainActivity extends ActionBarActivity {
             afficherRepos(repos);
         }
     }
-
-    class MyErrorHandler implements
-}
-
 }
