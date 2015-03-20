@@ -4,24 +4,27 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
+import android.os.AsyncTask;
 import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.FragmentGridPagerAdapter;
+import android.util.LruCache;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ElementGridPagerAdapter extends FragmentGridPagerAdapter {
 
-    private Context context;
-    private List<Row> mRows = new ArrayList<Row>();
-    private List<Element> mElements;
+    private List<Row> mRows;
 
-    public ElementGridPagerAdapter(Context context, List<Element> elements, FragmentManager fm) {
+    public ElementGridPagerAdapter(List<Element> elements, FragmentManager fm) {
         super(fm);
-        this.context = context;
-        this.mElements = elements;
+
+        this.mRows = new ArrayList<Row>();
 
         //Construit le tableau des éléménts à afficher
         for (Element element : elements) {
@@ -33,7 +36,7 @@ public class ElementGridPagerAdapter extends FragmentGridPagerAdapter {
         }
     }
 
-    //Le fragment à afficher p
+    //Le fragment à afficher
     @Override
     public Fragment getFragment(int row, int col) {
         Row adapterRow = mRows.get(row);
@@ -43,11 +46,7 @@ public class ElementGridPagerAdapter extends FragmentGridPagerAdapter {
     //le drawable affichée en background pour la ligne [row]
     @Override
     public Drawable getBackgroundForRow(final int row) {
-        Bitmap bitmap = ((MainActivity) context).getBitmap(row);
-        if (bitmap != null)
-            return new BitmapDrawable(context.getResources(), bitmap);
-        else
-            return BACKGROUND_NONE;
+        return BitmapManager.getInstance().get(row); //les images ont déjà été chargées dans un LruCache
     }
 
     @Override
@@ -92,4 +91,5 @@ public class ElementGridPagerAdapter extends FragmentGridPagerAdapter {
             return columns.size();
         }
     }
+
 }

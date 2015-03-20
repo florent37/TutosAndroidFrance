@@ -70,10 +70,12 @@ public class WearService extends WearableListenerService {
 
         if (path.equals("bonjour")) {
 
+            //Utilise Retrofit pour réaliser un appel REST
             AndroidService androidService = new RestAdapter.Builder()
                     .setEndpoint(AndroidService.ENDPOINT)
                     .build().create(AndroidService.class);
 
+            //Récupère et deserialise le contenu de mon fichier JSON en objet Element
             androidService.getElements(new Callback<List<Element>>() {
                 @Override
                 public void success(List<Element> elements, Response response) {
@@ -88,15 +90,21 @@ public class WearService extends WearableListenerService {
         }
     }
 
+    /**
+     * Envoie la liste d'éléments à la montre
+     * @param elements
+     */
     private void envoyerListElements(final List<Element> elements) {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                int nombreElements = elements.size();
+
                 //Envoie des elements
                 sendElements(elements);
 
                 //puis indique à la montre le nombre d'éléments à afficher
-                sendMessage("nombre_elements",String.valueOf(elements.size()));
+                sendMessage("nombre_elements",String.valueOf(nombreElements));
             }
         }).start();
     }
@@ -151,6 +159,7 @@ public class WearService extends WearableListenerService {
      */
     protected void sendElements(final List<Element> elements) {
 
+        //envoie chaque élémént 1 par 1
         for (int position = 0; position < elements.size(); ++position) {
 
             Element element = elements.get(position);
@@ -187,10 +196,10 @@ public class WearService extends WearableListenerService {
             //créé un emplacement mémoire "image/[url_image]"
             final PutDataMapRequest putDataMapRequest = PutDataMapRequest.create("/image/" + position);
 
-            //ajoute la date de mise à jour
+            //ajoute la date de mise à jour, important pour que les données soient mises à jour
             putDataMapRequest.getDataMap().putString("timestamp", new Date().toString());
 
-            //ajoute l'image
+            //ajoute l'image à la requête
             putDataMapRequest.getDataMap().putAsset("image", asset);
 
             //envoie la donnée à la montre

@@ -4,21 +4,21 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.wearable.view.DotsPageIndicator;
 import android.support.wearable.view.GridViewPager;
-import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
-import android.view.View;
-import android.view.WindowInsets;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.Asset;
 import com.google.android.gms.wearable.DataApi;
-import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.MessageApi;
@@ -29,13 +29,11 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends Activity  implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, MessageApi.MessageListener, DataApi.DataListener {
+public class MainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, MessageApi.MessageListener, DataApi.DataListener {
 
     private final static String TAG = MainActivity.class.getCanonicalName();
 
@@ -46,6 +44,8 @@ public class MainActivity extends Activity  implements GoogleApiClient.Connectio
     private List<Element> elementList;
 
     protected GoogleApiClient mApiClient;
+
+    protected BitmapManager mBitmapManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +66,12 @@ public class MainActivity extends Activity  implements GoogleApiClient.Connectio
     private List<Element> creerListElements() {
         List<Element> list = new ArrayList<>();
 
-        list.add(new Element("Element 1","Description 1", Color.parseColor("#F44336")));
-        list.add(new Element("Element 2","Description 2", Color.parseColor("#E91E63")));
-        list.add(new Element("Element 3","Description 3", Color.parseColor("#9C27B0")));
-        list.add(new Element("Element 4","Description 4", Color.parseColor("#673AB7")));
-        list.add(new Element("Element 5","Description 5", Color.parseColor("#3F51B5")));
-        list.add(new Element("Element 6","Description 6", Color.parseColor("#2196F3")));
+        list.add(new Element("Element 1", "Description 1", Color.parseColor("#F44336")));
+        list.add(new Element("Element 2", "Description 2", Color.parseColor("#E91E63")));
+        list.add(new Element("Element 3", "Description 3", Color.parseColor("#9C27B0")));
+        list.add(new Element("Element 4", "Description 4", Color.parseColor("#673AB7")));
+        list.add(new Element("Element 5", "Description 5", Color.parseColor("#3F51B5")));
+        list.add(new Element("Element 6", "Description 6", Color.parseColor("#2196F3")));
 
         return list;
     }
@@ -102,7 +102,7 @@ public class MainActivity extends Activity  implements GoogleApiClient.Connectio
         Wearable.DataApi.addListener(mApiClient, this);
 
         //envoie le premier message
-        sendMessage("bonjour","smartphone");
+        sendMessage("bonjour", "smartphone");
     }
 
     /**
@@ -120,7 +120,6 @@ public class MainActivity extends Activity  implements GoogleApiClient.Connectio
     }
 
 
-
     @Override
     public void onConnectionSuspended(int i) {
     }
@@ -131,6 +130,7 @@ public class MainActivity extends Activity  implements GoogleApiClient.Connectio
 
     /**
      * Appellé à la réception d'un message envoyé depuis le smartphone
+     *
      * @param messageEvent message reçu
      */
     @Override
@@ -140,42 +140,47 @@ public class MainActivity extends Activity  implements GoogleApiClient.Connectio
         //récupère le contenu du message
         final String message = new String(messageEvent.getData());
 
-        if(path.equals("nombre_elements")){
-            elementList = new ArrayList<>();
-            int nombre = Integer.parseInt(message); //on part du principe que c'est bien un integer
+        if (elementList == null || elementList.isEmpty()) {
 
-            //si on reçoit "nombre" c'est que les données ont bien étés envoyées
-            for(int i=0;i<nombre;++i){
-                elementList.add(getElement(i));
+            Log.d(TAG,"message reçu :"+path);
+
+            if (path.equals("nombre_elements")) {
+                elementList = new ArrayList<>();
+                int nombre = Integer.parseInt(message); //on part du principe que c'est bien un integer
+
+                Log.d(TAG,"nombre d'éléments à afficher :"+nombre);
+
+                //si on reçoit "nombre" c'est que les données ont bien étés envoyées
+                for (int i = 0; i < nombre; ++i) {
+                    elementList.add(getElement(i));
+                }
+
+                preloadImages(elementList.size());
+            } else if (path.equals("bonjour")) {
+                elementList = new ArrayList<>();
+                elementList.add(new Element("Message reçu", message, Color.parseColor("#F44336")));
+                startMainScreen();
             }
-
-            //penser à effectuer les actions graphiques dans le UIThread
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    pager.setAdapter(new ElementGridPagerAdapter(MainActivity.this,elementList, getFragmentManager()));
-                }
-            });
         }
+    }
 
+    public void startMainScreen() {
+        //penser à effectuer les actions graphiques dans le UIThread
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //nous affichons ici dans notre viewpager
 
-        else if(path.equals("bonjour")){
-            //penser à effectuer les actions graphiques dans le UIThread
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    //nous affichons ici dans notre viewpager
-                    elementList = new ArrayList<>();
-                    elementList.add(new Element("Message reçu",message,Color.parseColor("#F44336")));
-                    pager.setAdapter(new ElementGridPagerAdapter(MainActivity.this,elementList,getFragmentManager()));
-                }
-            });
-        }
+                if(pager != null && pager.getAdapter() == null)
+                    pager.setAdapter(new ElementGridPagerAdapter(elementList, getFragmentManager()));
+            }
+        });
     }
 
     /**
      * Envoie un message à au smartphone
-     * @param path identifiant du message
+     *
+     * @param path    identifiant du message
      * @param message message à transmettre
      */
     protected void sendMessage(final String path, final String message) {
@@ -204,11 +209,13 @@ public class MainActivity extends Activity  implements GoogleApiClient.Connectio
      */
     protected Uri getUriForDataItem(String path) {
         try {
+            //recupère le nodeId du smartphone
             final String nodeId = Wearable.NodeApi.getConnectedNodes(mApiClient).await().getNodes().get(0).getId();
+            //construit l'uri pointant vers notre path
             Uri uri = new Uri.Builder().scheme(PutDataRequest.WEAR_URI_SCHEME).authority(nodeId).path(path).build();
             return uri;
-        }catch (Exception e){
-            Log.e(TAG,e.getMessage(),e);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
             return null;
         }
     }
@@ -233,25 +240,6 @@ public class MainActivity extends Activity  implements GoogleApiClient.Connectio
         return null;
     }
 
-    /**
-     * Récupère une bitmap partagée avec le smartphone depuis une position
-     */
-    public Bitmap getBitmap(int position) {
-        final Uri uri = getUriForDataItem("/image/"+position);
-        if (uri != null) {
-            final DataApi.DataItemResult result = Wearable.DataApi.getDataItem(mApiClient, uri).await();
-            if (result != null && result.getDataItem() != null) {
-
-                final DataMapItem dataMapItem = DataMapItem.fromDataItem(result.getDataItem());
-                final Asset firstAsset = dataMapItem.getDataMap().getAsset("image");
-                if (firstAsset != null) {
-                    return loadBitmapFromAsset(firstAsset);
-
-                }
-            }
-        }
-        return null;
-    }
 
     /**
      * Récupère une bitmap depuis un asset de DataApi
@@ -271,4 +259,61 @@ public class MainActivity extends Activity  implements GoogleApiClient.Connectio
         return BitmapFactory.decodeStream(assetInputStream);
     }
 
+    /**
+     * Récupère une bitmap partagée avec le smartphone depuis une position
+     */
+    public Bitmap getBitmap(int position) {
+        final Uri uri = getUriForDataItem("/image/" + position);
+        if (uri != null) {
+            final DataApi.DataItemResult result = Wearable.DataApi.getDataItem(mApiClient, uri).await();
+            if (result != null && result.getDataItem() != null) {
+
+                final DataMapItem dataMapItem = DataMapItem.fromDataItem(result.getDataItem());
+                final Asset firstAsset = dataMapItem.getDataMap().getAsset("image");
+                if (firstAsset != null) {
+                    return loadBitmapFromAsset(firstAsset);
+
+                }
+            }
+        }
+        return null;
+    }
+
+
+    public void preloadImages(final int size) {
+        BitmapManager.init(size);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new AsyncTask<Void, Void, Void>() {
+
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                        Toast.makeText(MainActivity.this, "Chargement des images", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        for (int i = 0; i < size; ++i) {
+                            Bitmap bitmap = getBitmap(i);
+                            Drawable drawable = null;
+                            if (bitmap != null)
+                                drawable = new BitmapDrawable(MainActivity.this.getResources(), bitmap);
+                            else
+                                drawable = new ColorDrawable(Color.BLUE);
+                            BitmapManager.getInstance().put(i, drawable);
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                        startMainScreen();
+                    }
+                }.execute();
+            }
+        });
+    }
 }
