@@ -2,17 +2,9 @@ package com.tutosandroidfrance.wearsample;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
-import android.os.AsyncTask;
 import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.FragmentGridPagerAdapter;
-import android.util.LruCache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +38,7 @@ public class ElementGridPagerAdapter extends FragmentGridPagerAdapter {
     //le drawable affichée en background pour la ligne [row]
     @Override
     public Drawable getBackgroundForRow(final int row) {
-        return BitmapManager.getInstance().get(row); //les images ont déjà été chargées dans un LruCache
+        return DrawableCache.getInstance().get(row); //les images ont déjà été chargées dans un LruCache
     }
 
     @Override

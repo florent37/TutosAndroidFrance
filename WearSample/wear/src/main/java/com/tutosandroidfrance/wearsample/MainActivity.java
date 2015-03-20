@@ -19,6 +19,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.Asset;
 import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.MessageApi;
@@ -45,7 +46,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
 
     protected GoogleApiClient mApiClient;
 
-    protected BitmapManager mBitmapManager;
+    protected DrawableCache mDrawableCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,13 +143,13 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
 
         if (elementList == null || elementList.isEmpty()) {
 
-            Log.d(TAG,"message reçu :"+path);
+            Log.d(TAG, "message reçu :" + path);
 
             if (path.equals("nombre_elements")) {
                 elementList = new ArrayList<>();
                 int nombre = Integer.parseInt(message); //on part du principe que c'est bien un integer
 
-                Log.d(TAG,"nombre d'éléments à afficher :"+nombre);
+                Log.d(TAG, "nombre d'éléments à afficher :" + nombre);
 
                 //si on reçoit "nombre" c'est que les données ont bien étés envoyées
                 for (int i = 0; i < nombre; ++i) {
@@ -171,7 +172,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
             public void run() {
                 //nous affichons ici dans notre viewpager
 
-                if(pager != null && pager.getAdapter() == null)
+                if (pager != null && pager.getAdapter() == null)
                     pager.setAdapter(new ElementGridPagerAdapter(elementList, getFragmentManager()));
             }
         });
@@ -201,6 +202,17 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     @Override
     public void onDataChanged(DataEventBuffer dataEvents) {
         //appellé lorsqu'une donnée à été mise à jour, nous utiliserons une autre méthode
+
+        for (DataEvent event : dataEvents) {
+            //on attend ici des assets dont le path commence par /image/
+            if (event.getType() == DataEvent.TYPE_CHANGED && event.getDataItem().getUri().getPath().startsWith("/image/")) {
+
+                DataMapItem dataMapItem = DataMapItem.fromDataItem(event.getDataItem());
+                Asset profileAsset = dataMapItem.getDataMap().getAsset("image");
+                Bitmap bitmap = loadBitmapFromAsset(profileAsset);
+                // On peux maintenant utiliser notre bitmap
+            }
+        }
     }
 
     /**
@@ -284,11 +296,12 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
      * Précharge les images dans un cache Lru (en mémoire, pas sur le disque)
      * Afin d'être accessibles depuis l'adapter
      * Puis affiche le viewpager une fois terminé
+     *
      * @param size nombre d'images à charger
      */
     public void preloadImages(final int size) {
         //initialise le cache
-        BitmapManager.init(size);
+        DrawableCache.init(size);
 
         //dans le UIThread pour avoir accès aux toasts
         runOnUiThread(new Runnable() {
@@ -312,7 +325,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
                                 drawable = new BitmapDrawable(MainActivity.this.getResources(), bitmap);
                             else
                                 drawable = new ColorDrawable(Color.BLUE);
-                            BitmapManager.getInstance().put(i, drawable);
+                            DrawableCache.getInstance().put(i, drawable);
                         }
                         return null;
                     }

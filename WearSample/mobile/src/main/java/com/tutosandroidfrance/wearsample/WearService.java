@@ -92,6 +92,7 @@ public class WearService extends WearableListenerService {
 
     /**
      * Envoie la liste d'éléments à la montre
+     * Envoie de même les images
      * @param elements
      */
     private void envoyerListElements(final List<Element> elements) {
@@ -100,7 +101,7 @@ public class WearService extends WearableListenerService {
             public void run() {
                 int nombreElements = elements.size();
 
-                //Envoie des elements
+                //Envoie des elements et leurs images
                 sendElements(elements);
 
                 //puis indique à la montre le nombre d'éléments à afficher
@@ -167,7 +168,7 @@ public class WearService extends WearableListenerService {
             //créé un emplacement mémoire "element/[position]"
             final PutDataMapRequest putDataMapRequest = PutDataMapRequest.create("/element/" + position);
 
-            //ajoute la date de mise à jour
+            //ajoute la date de mi[jase à jour
             putDataMapRequest.getDataMap().putString("timestamp", new Date().toString());
 
             //ajoute l'element champ par champ
