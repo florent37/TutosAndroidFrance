@@ -280,8 +280,17 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     }
 
 
+    /**
+     * Précharge les images dans un cache Lru (en mémoire, pas sur le disque)
+     * Afin d'être accessibles depuis l'adapter
+     * Puis affiche le viewpager une fois terminé
+     * @param size nombre d'images à charger
+     */
     public void preloadImages(final int size) {
+        //initialise le cache
         BitmapManager.init(size);
+
+        //dans le UIThread pour avoir accès aux toasts
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -295,6 +304,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
 
                     @Override
                     protected Void doInBackground(Void... params) {
+                        //charge les images 1 par 1 et les place dans un LruCache
                         for (int i = 0; i < size; ++i) {
                             Bitmap bitmap = getBitmap(i);
                             Drawable drawable = null;
@@ -310,6 +320,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
                     @Override
                     protected void onPostExecute(Void aVoid) {
                         super.onPostExecute(aVoid);
+                        //affiche le viewpager
                         startMainScreen();
                     }
                 }.execute();
