@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.Asset;
+import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
@@ -103,9 +104,6 @@ public class WearService extends WearableListenerService {
 
                 //Envoie des elements et leurs images
                 sendElements(elements);
-
-                //puis indique à la montre le nombre d'éléments à afficher
-                sendMessage("nombre_elements",String.valueOf(nombreElements));
             }
         }).start();
     }
@@ -160,28 +158,42 @@ public class WearService extends WearableListenerService {
      */
     protected void sendElements(final List<Element> elements) {
 
+        final PutDataMapRequest putDataMapRequest = PutDataMapRequest.create("/elements/");
+
+        ArrayList<DataMap> elementsDataMap = new ArrayList<>();
+
         //envoie chaque élémént 1 par 1
         for (int position = 0; position < elements.size(); ++position) {
 
+            DataMap elementDataMap = new DataMap();
             Element element = elements.get(position);
 
             //créé un emplacement mémoire "element/[position]"
-            final PutDataMapRequest putDataMapRequest = PutDataMapRequest.create("/element/" + position);
 
             //ajoute la date de mi[jase à jour
-            putDataMapRequest.getDataMap().putString("timestamp", new Date().toString());
+            elementDataMap.putString("timestamp", new Date().toString());
 
             //ajoute l'element champ par champ
-            putDataMapRequest.getDataMap().putString("titre", element.getTitre());
-            putDataMapRequest.getDataMap().putString("description", element.getDescription());
-            putDataMapRequest.getDataMap().putString("url", element.getUrl());
+            elementDataMap.putString("titre", element.getTitre());
+            elementDataMap.putString("description", element.getDescription());
+            elementDataMap.putString("url", element.getUrl());
 
-            //envoie la donnée à la montre
-            if (mApiClient.isConnected())
-                Wearable.DataApi.putDataItem(mApiClient, putDataMapRequest.asPutDataRequest());
+            //ajoute cette datamap à notre arrayList
+            elementsDataMap.add(elementDataMap);
 
-            //puis envoie l'image associée
-            sendImage(element.getUrl(), position);
+        }
+
+        //place la liste dans la datamap envoyée à la wear
+        putDataMapRequest.getDataMap().putDataMapArrayList("/list/",elementsDataMap);
+
+        //envoie la liste à la montre
+        if (mApiClient.isConnected())
+            Wearable.DataApi.putDataItem(mApiClient, putDataMapRequest.asPutDataRequest());
+
+        //puis envoie les images dans un second temps
+        for(int position = 0; position < elements.size(); ++position){
+            //charge l'image associée pour l'envoyer en bluetooth
+            sendImage(elements.get(position).getUrl(), position);
         }
     }
 

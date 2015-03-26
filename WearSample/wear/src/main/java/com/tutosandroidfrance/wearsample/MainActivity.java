@@ -21,6 +21,7 @@ import com.google.android.gms.wearable.Asset;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
+import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.MessageEvent;
@@ -141,27 +142,10 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         //récupère le contenu du message
         final String message = new String(messageEvent.getData());
 
-        if (elementList == null || elementList.isEmpty()) {
-
-            Log.d(TAG, "message reçu :" + path);
-
-            if (path.equals("nombre_elements")) {
-                elementList = new ArrayList<>();
-                int nombre = Integer.parseInt(message); //on part du principe que c'est bien un integer
-
-                Log.d(TAG, "nombre d'éléments à afficher :" + nombre);
-
-                //si on reçoit "nombre" c'est que les données ont bien étés envoyées
-                for (int i = 0; i < nombre; ++i) {
-                    elementList.add(getElement(i));
-                }
-
-                preloadImages(elementList.size());
-            } else if (path.equals("bonjour")) {
-                elementList = new ArrayList<>();
-                elementList.add(new Element("Message reçu", message, Color.parseColor("#F44336")));
-                startMainScreen();
-            }
+        if (path.equals("bonjour")) {
+            elementList = new ArrayList<>();
+            elementList.add(new Element("Message reçu", message, Color.parseColor("#F44336")));
+            startMainScreen();
         }
     }
 
@@ -204,6 +188,24 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         //appellé lorsqu'une donnée à été mise à jour, nous utiliserons une autre méthode
 
         for (DataEvent event : dataEvents) {
+            //on attend les "elements"
+            if (event.getType() == DataEvent.TYPE_CHANGED && event.getDataItem().getUri().getPath().startsWith("/elements/")) {
+                DataMapItem dataMapItem = DataMapItem.fromDataItem(event.getDataItem());
+                List<DataMap> elementsDataMap = dataMapItem.getDataMap().getDataMapArrayList("/list/");
+
+                if (elementList == null || elementList.isEmpty()) {
+                    elementList = new ArrayList<>();
+
+                    for (DataMap dataMap : elementsDataMap) {
+                        elementList.add(getElement(dataMap));
+                    }
+
+                    //charge les images puis affiche le main screen
+                    preloadImages(elementList.size());
+                }
+
+            }
+
             //on attend ici des assets dont le path commence par /image/
             if (event.getType() == DataEvent.TYPE_CHANGED && event.getDataItem().getUri().getPath().startsWith("/image/")) {
 
@@ -235,21 +237,11 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     /**
      * Récupère un element depuis sa position
      */
-    public Element getElement(int index) {
-        final Uri uri = getUriForDataItem("/element/" + index);
-        if (uri != null) {
-            final DataApi.DataItemResult result = Wearable.DataApi.getDataItem(mApiClient, uri).await();
-            if (result != null && result.getDataItem() != null) {
-
-                final DataMapItem dataMapItem = DataMapItem.fromDataItem(result.getDataItem());
-                return new Element(
-                        dataMapItem.getDataMap().getString("titre"),
-                        dataMapItem.getDataMap().getString("description"),
-                        dataMapItem.getDataMap().getString("url")
-                );
-            }
-        }
-        return null;
+    public Element getElement(DataMap elementDataMap) {
+        return new Element(
+                elementDataMap.getString("titre"),
+                elementDataMap.getString("description"),
+                elementDataMap.getString("url"));
     }
 
 
