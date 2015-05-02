@@ -15,6 +15,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
     private TextView textViewView;
     private ImageView imageView;
 
+    //itemView est la vue correspondante à 1 cellule
     public MyViewHolder(View itemView) {
         super(itemView);
 
