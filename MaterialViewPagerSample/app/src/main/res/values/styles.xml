@@ -1,5 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light">
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
 
