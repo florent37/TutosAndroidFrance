@@ -23,8 +23,6 @@ public class RecyclerViewFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
 
-    private List<Object> mContentItems = new ArrayList<>();
-
     public static RecyclerViewFragment newInstance() {
         return new RecyclerViewFragment();
     }
@@ -38,16 +36,22 @@ public class RecyclerViewFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+
+        //permet un affichage sous forme liste verticale
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
+        //100 faux contenu
+        List<Object> mContentItems = new ArrayList<>();
         for (int i = 0; i < 100; ++i)
             mContentItems.add(new Object());
 
+        //penser à passer notre Adapter (ici : TestRecyclerViewAdapter) à un RecyclerViewMaterialAdapter
         mAdapter = new RecyclerViewMaterialAdapter(new TestRecyclerViewAdapter(mContentItems));
         mRecyclerView.setAdapter(mAdapter);
 
+        //notifier le MaterialViewPager qu'on va utiliser une RecyclerView
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
     }
 }
