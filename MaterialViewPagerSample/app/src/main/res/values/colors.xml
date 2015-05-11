@@ -8,11 +8,12 @@
     <color name="red">#F44336</color>
     <color name="cyan">#00BCD4</color>
     <color name="lime">#CDDC39</color>
+    <color name="orange">#e95609</color>
 
-    <color name="accent_color">@color/blue</color>
-    <color name="colorPrimary">@color/blue</color>
-    <color name="colorPrimaryDark">@color/blue</color>
-    <color name="statusBarColor">@color/blue</color>
+    <color name="accent_color">@color/orange</color>
+    <color name="colorPrimary">@color/orange</color>
+    <color name="colorPrimaryDark">@color/orange</color>
+    <color name="statusBarColor">@color/orange</color>
     <color name="navigationBarColor">@android:color/black</color>
     <color name="drawerArrowColor">@android:color/white</color>
 </resources>

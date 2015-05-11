@@ -28,7 +28,7 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.tools_list_item_card_small, parent, false);
+                .inflate(R.layout.list_item_card, parent, false);
         return new RecyclerView.ViewHolder(view) {
         };
     }

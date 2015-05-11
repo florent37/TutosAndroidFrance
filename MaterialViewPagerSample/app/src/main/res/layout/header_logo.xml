@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/logo_white"
-    android:layout_width="wrap_content"
-    android:layout_height="@dimen/materialviewpager_logoHeight"
-    android:text="Material is Good"
-    android:textSize="30sp"
-    android:textColor="@android:color/white"/>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/headerLogo"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:background="@drawable/circle">
+    <ImageView
+        android:id="@+id/headerLogoContent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/tennis"
+        android:layout_gravity="center"/>
+</FrameLayout>
