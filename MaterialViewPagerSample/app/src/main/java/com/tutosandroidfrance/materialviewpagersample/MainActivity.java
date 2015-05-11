@@ -33,15 +33,20 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //4 onglets
         final int tabCount = 4;
 
+        //les vues définies dans @layout/header_logo
         headerLogo = findViewById(R.id.headerLogo);
         headerLogoContent = (ImageView) findViewById(R.id.headerLogoContent);
 
+        //le MaterialViewPager
         this.materialViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
         this.materialViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+
             @Override
             public Fragment getItem(int position) {
+                //je créé pour chaque onglet un RecyclerViewFragment
                 return RecyclerViewFragment.newInstance();
             }
 
@@ -50,6 +55,7 @@ public class MainActivity extends ActionBarActivity {
                 return tabCount;
             }
 
+            //le titre à afficher pour chaque page
             @Override
             public CharSequence getPageTitle(int position) {
                 switch (position) {
@@ -67,13 +73,15 @@ public class MainActivity extends ActionBarActivity {
             }
 
             int oldItemPosition = -1;
-
             @Override
             public void setPrimaryItem(ViewGroup container, int position, Object object) {
                 super.setPrimaryItem(container, position, object);
+
+                //seulement si la page est différente
                 if (oldItemPosition != position) {
                     oldItemPosition = position;
 
+                    //définir la nouvelle couleur et les nouvelles images
                     String imageUrl = null;
                     int color = Color.BLACK;
                     Drawable newDrawable = null;
@@ -100,6 +108,8 @@ public class MainActivity extends ActionBarActivity {
                             newDrawable = getResources().getDrawable(R.drawable.earth);
                             break;
                     }
+
+                    //puis modifier les images/couleurs
                     int fadeDuration = 400;
                     materialViewPager.setColor(color, fadeDuration);
                     materialViewPager.setImageUrl(imageUrl, fadeDuration);
@@ -109,12 +119,15 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-
+        //permet au viewPager de garder 4 pages en mémoire (à ne pas utiliser sur plus de 4 pages !)
         this.materialViewPager.getViewPager().setOffscreenPageLimit(tabCount);
+        //relie les tabs au viewpager
         this.materialViewPager.getPagerTitleStrip().setViewPager(this.materialViewPager.getViewPager());
     }
 
     private void toggleLogo(final Drawable newLogo, final int newColor, int duration){
+
+        //animation de disparition
         final AnimatorSet animatorSetDisappear = new AnimatorSet();
         animatorSetDisappear.setDuration(duration);
         animatorSetDisappear.playTogether(
@@ -122,6 +135,7 @@ public class MainActivity extends ActionBarActivity {
                 ObjectAnimator.ofFloat(headerLogo, "scaleY", 0)
         );
 
+        //animation d'apparition
         final AnimatorSet animatorSetAppear = new AnimatorSet();
         animatorSetAppear.setDuration(duration);
         animatorSetAppear.playTogether(
@@ -129,18 +143,24 @@ public class MainActivity extends ActionBarActivity {
                 ObjectAnimator.ofFloat(headerLogo, "scaleY", 1)
         );
 
+        //après la disparition
         animatorSetDisappear.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
 
+                //modifie la couleur du cercle
                 ((GradientDrawable) headerLogo.getBackground()).setColor(newColor);
+
+                //modifie l'image contenue dans le cercle
                 headerLogoContent.setImageDrawable(newLogo);
 
+                //démarre l'animation d'apparition
                 animatorSetAppear.start();
             }
         });
 
+        //démarre l'animation de disparition
         animatorSetDisappear.start();
     }
 
