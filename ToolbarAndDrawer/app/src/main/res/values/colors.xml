@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="blue">#303F9F</color>
+    <color name="green">#4CAF50</color>
+    <color name="purple">#673AB7</color>
+    <color name="cyan">#00BCD4</color>
+    <color name="orange">#e95609</color>
+
+    <color name="accent_color">@color/cyan</color>
+    <color name="colorPrimary">@color/cyan</color>
+    <color name="colorPrimaryDark">@color/cyan</color>
+    <color name="statusBarColor">@color/cyan</color>
+</resources>
