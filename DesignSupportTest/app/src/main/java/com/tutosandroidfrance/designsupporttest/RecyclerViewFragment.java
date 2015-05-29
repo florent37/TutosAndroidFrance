@@ -3,7 +3,10 @@ package com.tutosandroidfrance.designsupporttest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -55,12 +58,12 @@ public class RecyclerViewFragment extends Fragment implements RecyclerViewAdapte
     private List<MyObject> createObjects() {
         List<MyObject> objects = new ArrayList<>();
 
-        objects.add(new MyObject("France","http://www.telegraph.co.uk/travel/destination/article130148.ece/ALTERNATES/w620/parisguidetower.jpg"));
-        objects.add(new MyObject("Angleterre","http://www.traditours.com/images/Photos%20Angleterre/ForumLondonBridge.jpg"));
-        objects.add(new MyObject("Allemagne","http://tanned-allemagne.com/wp-content/uploads/2012/10/pano_rathaus_1280.jpg"));
-        objects.add(new MyObject("Espagne","http://www.sejour-linguistique-lec.fr/wp-content/uploads/espagne-02.jpg"));
-        objects.add(new MyObject("Italie","http://retouralinnocence.com/wp-content/uploads/2013/05/Hotel-en-Italie-pour-les-Vacances2.jpg"));
-        objects.add(new MyObject("Russie","http://www.choisir-ma-destination.com/uploads/_large_russie-moscou2.jpg"));
+        objects.add(new MyObject("France", "http://www.telegraph.co.uk/travel/destination/article130148.ece/ALTERNATES/w620/parisguidetower.jpg"));
+        objects.add(new MyObject("Angleterre", "http://www.traditours.com/images/Photos%20Angleterre/ForumLondonBridge.jpg"));
+        objects.add(new MyObject("Allemagne", "http://tanned-allemagne.com/wp-content/uploads/2012/10/pano_rathaus_1280.jpg"));
+        objects.add(new MyObject("Espagne", "http://www.sejour-linguistique-lec.fr/wp-content/uploads/espagne-02.jpg"));
+        objects.add(new MyObject("Italie", "http://retouralinnocence.com/wp-content/uploads/2013/05/Hotel-en-Italie-pour-les-Vacances2.jpg"));
+        objects.add(new MyObject("Russie", "http://www.choisir-ma-destination.com/uploads/_large_russie-moscou2.jpg"));
 
 
         return objects;
@@ -68,8 +71,14 @@ public class RecyclerViewFragment extends Fragment implements RecyclerViewAdapte
 
     @Override
     public void onRecyclerViewElementClicked(View view, int position, MyObject element) {
-        Intent intent = new Intent(getActivity(),DetailActivity.class);
-        intent.putExtra(DetailActivity.MY_OBJECT,element);
-        startActivity(intent);
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra(DetailActivity.MY_OBJECT, element);
+
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                getActivity(),
+                Pair.create(view.findViewById(R.id.image), getResources().getString(R.string.image))
+        );
+
+        ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
     }
 }

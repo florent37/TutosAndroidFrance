@@ -29,6 +29,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //et on indique à nos tabs quel est le viewpagers à écouter
+        //indique au tablayout quel est le viewpager à écouter
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -114,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.fab)
     public void onFabClick() {
         Snackbar.make(fab, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+                .setAction("Undo", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                }).show();
     }
 }

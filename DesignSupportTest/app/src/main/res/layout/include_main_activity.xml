@@ -45,8 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="10dp"
-        app:elevation="4dp"
-        android:elevation="4dp"
+        app:backgroundTint="@color/red"
         android:src="@drawable/ic_done" />
 
 </android.support.design.widget.CoordinatorLayout>

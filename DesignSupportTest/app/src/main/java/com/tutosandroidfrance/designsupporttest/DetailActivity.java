@@ -25,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.tutosandroidfrance.designsupporttest.model.MyObject;
 
@@ -56,7 +57,20 @@ public class DetailActivity extends AppCompatActivity {
 
         MyObject myObject = (MyObject) getIntent().getSerializableExtra(MY_OBJECT);
         collapsingToolbar.setTitle(myObject.getText());
-        Picasso.with(this).load(myObject.getImageUrl()).centerCrop().fit().into(backgroundImageView);
+
+        supportPostponeEnterTransition();
+
+        Picasso.with(this).load(myObject.getImageUrl()).centerCrop().fit().into(backgroundImageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                supportStartPostponedEnterTransition();
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
     }
 
     @Override
