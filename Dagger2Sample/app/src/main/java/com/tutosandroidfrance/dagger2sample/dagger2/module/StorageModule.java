@@ -12,11 +12,16 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by florentchampigny on 03/06/15.
+ * Ce module permet à Dagger2 de créer un Storage
+ * Dagger2 va le crééer de façon unique (Singleton) et sera accéssible depuis le GithubComponent
  */
 @Module
 public class StorageModule {
 
+    /**
+     * Retourne un Storage à Dagger2, construit avec le Context, injecté par Dagger2
+     * @param context Contexte de l'application, fournit par Dagger2
+     */
     @Provides
     @Singleton
     public Storage provideStorage(Context context){

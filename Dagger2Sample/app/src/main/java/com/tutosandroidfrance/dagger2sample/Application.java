@@ -17,12 +17,13 @@ public class Application extends android.app.Application {
     public void onCreate() {
         super.onCreate();
 
-        //provides the application context
+        //on créé le AppComponent en lui passant comme Context l'application
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
     }
 
+    //permet aux activités via .getApplication().appComponent() de récupérer le AppComponent
     public AppComponent appComponent() {
         return appComponent;
     }
