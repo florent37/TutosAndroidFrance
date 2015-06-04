@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import javax.inject.Inject;
 
 /**
- * Created by florentchampigny on 03/06/15.
+ * Classe permettant de stocker l'API KEY dans les SharedPreferences
  */
 public class Storage {
     protected final String SHARED_PREFERENCES = "StorageModule";

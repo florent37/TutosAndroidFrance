@@ -6,14 +6,11 @@ import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.GET;
-import retrofit.http.Query;
+import retrofit.http.Path;
 
-/**
- * Created by florentchampigny on 03/06/15.
- */
 public interface GithubService {
 
-    @GET("/search/repositories")
-    void searchRepos(@Query("q") String query, Callback<List<Repo>> callback);
+    @GET("/users/{user}/repos")
+    void listRepos(@Path("user") String user, Callback<List<Repo>> callback);
 
 }

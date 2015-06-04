@@ -10,6 +10,7 @@ import dagger.Module;
 import dagger.Provides;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.android.AndroidLog;
 
 /**
  * Ce module permet de récupérer le GithubService
@@ -29,11 +30,16 @@ public class RestModule {
     public GithubService provideGithubService(final Storage storage) {
         return new RestAdapter.Builder()
                 .setEndpoint(BuildConfig.URL_GITHUB)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setLog(new AndroidLog("Retrofit"))
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
                     public void intercept(RequestFacade request) {
-                        //ajoute aux header la ApiKey en clé bearer
-                        request.addHeader("bearer", storage.getApiKey());
+                        String key = storage.getApiKey();
+                        if (key != null) {
+                            //ajoute aux header la ApiKey en clé bearer
+                            request.addHeader("bearer", key);
+                        }
                     }
                 })
                 .build()
