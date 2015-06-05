@@ -1,9 +1,12 @@
 package com.tutosandroidfrance.dagger2sample.dagger2.component;
 
+import com.tutosandroidfrance.dagger2sample.MainActivity;
 import com.tutosandroidfrance.dagger2sample.dagger2.module.RestModule;
 import com.tutosandroidfrance.dagger2sample.dagger2.module.StorageModule;
 import com.tutosandroidfrance.dagger2sample.storage.Storage;
 import com.tutosandroidfrance.dagger2sample.webservice.GithubService;
+
+import java.util.Objects;
 
 import javax.inject.Singleton;
 
@@ -24,4 +27,6 @@ import dagger.Component;
 public interface GithubComponent {
     GithubService githubService();
     Storage storage();
+
+    void inject(MainActivity mainActivity);
 }

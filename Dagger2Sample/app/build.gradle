@@ -1,6 +1,5 @@
-apply plugin: 'com.android.application'
-
 //android annotation tools
+apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
