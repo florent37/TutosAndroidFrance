@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MyYoutube</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="transitionImage">image</string>
+    <string name="transitionTitle">title</string>
+    <string name="search">Recherche</string>
+    <string name="auteur">Auteur</string>
+    <string name="description">Description</string>
+    <string name="detail">Detail</string>
+</resources>
