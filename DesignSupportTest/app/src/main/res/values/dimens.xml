@@ -1,4 +1,8 @@
 <resources>
     <dimen name="cardMarginHorizontal">10dp</dimen>
     <dimen name="cardMarginVertical">8dp</dimen>
+
+    <dimen name="toolbar_elevation">5dp</dimen>
+    <dimen name="fab_elevation">10dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
 </resources>

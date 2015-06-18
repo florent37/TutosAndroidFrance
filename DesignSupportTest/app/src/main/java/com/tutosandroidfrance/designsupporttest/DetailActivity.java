@@ -16,12 +16,16 @@
 
 package com.tutosandroidfrance.designsupporttest;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
+import android.transition.Fade;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
@@ -52,6 +56,8 @@ public class DetailActivity extends AppCompatActivity {
 
         ButterKnife.inject(this);
 
+        setupWindowAnimations();
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -71,6 +77,13 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void setupWindowAnimations() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Fade fade = new Fade();
+            getWindow().setReturnTransition(fade);
+        }
     }
 
     @Override

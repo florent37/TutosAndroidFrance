@@ -13,6 +13,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="@dimen/toolbar_elevation"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <!-- La toolbar, que l'on connait déjà -->
@@ -45,7 +46,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="10dp"
+        app:elevation="@dimen/fab_elevation"
+        app:borderWidth="0dp"
         app:backgroundTint="@color/red"
+        app:pressedTranslationZ="5dp"
         android:src="@drawable/ic_done" />
 
 </android.support.design.widget.CoordinatorLayout>
