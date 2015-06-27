@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HelloWorldView">
+        <attr name="helloColor" format="color"/>
+        <attr name="worldColor" format="color"/>
+    </declare-styleable>
+</resources>

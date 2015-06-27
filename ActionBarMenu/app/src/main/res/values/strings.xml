@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ActionBarMenu</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+</resources>
