@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">EventBusSample</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="please_refresh">Please refresh</string>
+    <string name="refresh">Ok I refresh</string>
+    <string name="question">What should I do ?</string>
+</resources>
