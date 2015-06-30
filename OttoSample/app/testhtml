@@ -1,0 +1,447 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr" dir="ltr">
+<head>
+	<title>En direct</title>
+	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+	<style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+    }
+    
+    body {
+      width: 100%;
+      margin:0 auto;
+      padding-top: 0px;
+      font-size: 14px;
+      font-family: "RobotoRegular";
+      color: #222222;
+      background-color: #EEEEEE;
+      text-align: left;
+      word-wrap: break-word;
+    }
+    
+    a {
+      color: #2154CC;
+    }
+    
+    h1 {
+      font-size: 19px;
+    }
+    
+    h2 {
+      font-size: 14px;
+    }
+    
+    h3 {
+      font-size: 14px;
+      font-weight: normal;
+      color: #666666;
+    }
+    
+    .header {
+      padding: 0px;
+      border-bottom: 1px solid #DBDBDB;
+      -webkit-box-shadow: 0 0 3px #E4E4E4;
+    }
+    
+    .header * {
+      /* -webkit-transition: all 0.3s ease-in-out; */
+    }
+    
+    .header #summary {
+      clear: both;
+      overflow: hidden;
+      font-size: 13px;
+      color: #666666;
+      padding-right: 0;
+    }
+    
+    .messageTitle {
+      color: #5392F5;
+    }
+    
+    .authorAvatar {
+      height: 30px;
+      float: left;
+    }
+    
+    .privateAuthorAvatar {
+      padding: 3px;
+      height: 30px;
+      float: left;
+    }
+    
+    .privateMessageAuthor {
+    	margin-left : 5px;
+    	margin-right: 0px;
+    	margin-top: 0px;
+    	margin-bottom: 0px;
+    	padding: 0px 5px 0px 0px;
+    }
+    
+    .userMessageTitle{
+      background-color: #75A8F5;
+      color : #FFFFFF;
+    }
+    
+    .privateMessageTitle{
+      height: 35px;
+      background-color: #ff3333;
+      color : #FFFFFF;
+    }
+    
+    .privateMessateTitle{
+      background-color: #ff3333;
+      color : #FFFFFF;
+    }
+    
+    .closePrivateMessage{
+      width: 20px;
+      height: 20px;
+      margin-top: 5px;
+      margin-right: 3px;
+      float: right;
+    }
+    
+    .messageAuthor{
+      margin-left : 10px;
+      margin-right: 0px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      padding: 0px;
+      color: #0e51d1
+      font-weight: bold;
+    }
+    
+    .cell h2,h3 {
+      display: inline;
+    }
+    
+    #messages {
+      text-align: center;
+      width: 100%;
+      background-color: white;
+      margin-top: 45px;
+      padding-top: 10px;
+    }
+    
+    .FTVContent {
+      margin-top: 10px;
+      margin-left: 10px;
+      margin-right: 10px;
+      text-align: left;
+      border-bottom: 1px solid #e9e9e9;
+    }
+    
+    .privateFTVContent{
+      position: fixed;
+      bottom: 0px;
+      width: 98%;
+      max-height: 90%;
+    }
+    
+    .messageWrapperContent{
+      margin: 3px;
+    }
+    
+    .userMessageWrapperContent{
+      border: 1px solid #669ef4;
+    }
+    
+    .privateMessageWrapperContent{
+      border: 1px solid #ff2828;
+    }
+    
+    .messageContent img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    
+    @media only screen and (max-width: 480px) {
+        iframe {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+        
+    @media only screen and (min-width: 480px) {
+        iframe {
+            display: block;
+            width: 100%;
+            height: 253px;
+        }
+    }
+        
+    @media only screen and (min-width: 750px) and (orientation : portrait) {
+    	body {
+      		width: 700px;
+    	}
+    }
+    
+    @media only screen and (min-width: 750px) and (orientation : landscape) {
+    	body {
+      		width: 700px;
+    	}
+    }
+    
+    @media only screen and (min-width: 750px) {
+        iframe {
+            display: block;
+            width: 100%;
+            height: 410px;
+        }
+    }
+    
+    .messageContent {
+      padding-left: 40px;
+      padding-top : 5px;
+      padding-right: 10px;
+    }
+    
+    .privateMessageContent{
+      background-color: #FFFFFF;
+      overflow: hidden;
+    }
+    
+    .messageContent iframe {
+      display: block;
+      max-width: 100% !important;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .messageContent embed {
+      display: block;
+      width: auto;
+      height: auto;
+    }
+    
+    .messageFooter {
+      overflow: auto;
+      color: #999999;
+      font-size: 12px;
+      padding-top: 5px;
+      padding-bottom: 10px;
+      padding-left: 30px;
+      padding-right: 10px;
+    }
+    
+    .privateMessageFooter{
+      background-color: #FFFFFF;
+    }
+    
+    .loadMore {
+      text-align: center;
+      padding-top: 9px;
+      padding-bottom: 9px;
+    }
+    
+    .loadMoreButton {
+      text-decoration: none;
+      color: #0E51D1;
+      font-weight: bold;
+      font-size: 13.5px;
+    }
+    
+    .shareLink {
+      color: #666666;
+      text-decoration:  none;
+    }
+    
+    .footerIcon {
+      width: 15px;
+      height: 15px;
+    }
+    
+    .footerIconTime {
+      width: 15px;
+      height: 15px;
+      margin-right:8px;
+     vertical-align: text-bottom;
+    }
+    
+    .footerItem {
+      width: 25%;
+      height: auto;
+      display: inline-block;
+     color: #999999;
+      font-size: 0.9em;
+      line-height:10px;
+      vertical-align:middle;
+    }
+    
+    .footerItemReply{
+      text-align: left;
+      margin-left: 10px
+    }
+    
+    .privateFooterItemReply{
+       text-align: left;
+    }
+    
+    .footerItemShare{
+      text-align: left;
+    }
+    
+    ul {
+      list-style-position: inside; /* Working around negative margin on bullets */
+    }
+    
+    #game {
+      font-size: 19px;
+      font-weight: bold;
+      color: #222222;
+    }
+    
+    #hashTag span {
+      text-transform: uppercase;
+            color: #457DEA !important;
+    }
+    
+    .score {
+      color: #E4241A;
+    }
+    
+    .period {
+      float: right;
+      color: #333333;
+      font-size: 12px;
+      display: block;
+      margin-top: 0px;
+      padding-top: 20px;
+      text-align: center;
+      height: 21px;
+      width: 41px;
+      font-weight: bold;
+      background: url('file:///android_asset/live_header_icon_game.png') no-repeat 100% 0;
+      background-size: 41px 40px;
+    }
+    
+    .liveIcon {
+      float: right;
+      color: #333333;
+      font-size: 12px;
+      display: block;
+      margin-top: 0px;
+      height: 21px;
+      width: 28px;
+      background: url('file:///android_asset/p01_video_icone_04.png') no-repeat 100% 0;
+      background-size: 28px 14px;
+    }
+  </style>
+	<script type="text/javascript" src="file:///android_asset/jquery.min.js"></script>
+<script type="text/javascript" src="file:///android_asset/jquery.urldecoder.min.js"></script>
+	<script type="text/javascript" src="file:///android_asset/jquery.iframetracker.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	
+	$(document).ready(function() {
+	
+		// this methods handles click on iframes
+		$('.messageContent iframe').iframeTracker({
+	        blurCallback: function(){
+	            tryToOpenContent(this._overId);
+	            this._iframe.blur();
+	        },
+	        overCallback: function(element){
+	            // Mémorisation de l'id de l'iframe survollée
+	            this._iframe = $(element);
+	            this._overId = this._iframe.attr('src'); // récupration de la valeur de l'attribut src de l'iframe
+	        },
+	        outCallback: function(element){
+	            // Reset lorsque la souris sort de l'iframe et revient dans la fenêtre
+	            this._overId = null;
+	            this._iframe = null;
+	        },
+	        _overId: null,
+	        _iframe: null
+	    });
+		
+	});
+	
+	function tryToOpenContent(vidUri) {
+		var videoUri = vidUri.toString();
+		LiveJSInterface.tryToOpenContent(videoUri);
+	}
+
+	
+    function setInlineStyles() {
+        var summary = document.getElementById('summary');
+        summary.setAttribute('original_height', summary.clientHeight+'px');
+        summary.style.height = summary.getAttribute('original_height');
+        document.getElementById('close').style.webkitTransform = "rotate(0deg)";
+    }
+
+    function biggestComponentInTimeInterval(secondsFromDate) {
+        if (secondsFromDate < 0) {
+            return "N/A";
+        } else if (secondsFromDate < 60) {
+            var plural = secondsFromDate > 1 ? "s" : "";
+            return secondsFromDate+" sec"+plural;
+        } else if (secondsFromDate < 60 * 60) {
+            var minutes = Math.floor(secondsFromDate / 60);
+            return minutes+" mn";
+        } else if (secondsFromDate < 60 * 60 * 24) {
+            var hours = Math.floor(secondsFromDate / 60 / 60);
+            var plural = hours > 1 ? "s" : "";
+            return hours+" heure"+plural;
+        } else {
+            var days = Math.floor(secondsFromDate / 60 / 60 / 24);
+            var plural = days > 1 ? "s" : "";
+            return days+" jour"+plural;
+        }
+    }
+    
+	function closePrivateMessage(){
+		$('#privateMessage').remove();
+		javascript:window.LiveJSInterface.closePrivateMessage();
+	}
+
+    function refreshTimeNoRepeat() {
+        var timeElements = document.getElementsByClassName('time');
+        for (var i = 0; i < timeElements.length; i++) {
+            var timeElement = timeElements[i];
+            var timestamp = parseInt(timeElement.getAttribute('timestamp'));
+
+            var currentDate = new Date().getTime();
+            var secondsFromDate = Math.floor((currentDate - timestamp*1000)/1000);
+            if (secondsFromDate < 5 ) {
+                timeElement.innerText = "à l'instant";
+            } else {	
+                timeElement.innerText = biggestComponentInTimeInterval(secondsFromDate);
+            }
+        }
+    }
+
+    function refreshTimeRepeat() {
+        refreshTimeNoRepeat();
+        setTimeout("refreshTimeRepeat();", 60000);
+    }
+    
+    window.onload = setInlineStyles;
+
+    </script>
+</head>
+<body onload="refreshTimeRepeat();">
+
+    <p>TEXTE</p><br/>
+    <p>TEXTE</p><br/>
+    <p>TEXTE</p><br/>
+    <p>TEXTE</p><br/>
+    <p>TEXTE</p><br/>
+    <p>TEXTE</p><br/>
+    <p>TEXTE</p><br/>
+    <p>TEXTE</p><br/>
+    <p>TEXTE</p><br/>
+    <p>TEXTE</p><br/>
+    <p>TEXTE</p><br/>
+    <p>TEXTE</p><br/>
+    <p>TEXTE</p><br/>
+
+</body>
+</html>
