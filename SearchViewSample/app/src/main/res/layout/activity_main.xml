@@ -7,7 +7,7 @@
 
     <fragment
         class="com.tutosandroidfrance.searchviewsample.MyFragment"
-        android:id="@+id/myFragment"
+        android:tag="myFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

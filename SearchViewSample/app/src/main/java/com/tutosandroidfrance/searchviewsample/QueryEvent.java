@@ -14,4 +14,5 @@ public class QueryEvent {
     public String getQuery() {
         return query;
     }
+
 }

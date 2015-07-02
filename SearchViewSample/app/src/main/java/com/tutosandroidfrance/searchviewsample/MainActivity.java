@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                 EventBus.getDefault().post(new QueryEvent(query));
 
                 //if you want to collapse the searchview
-                //invalidateOptionsMenu();
+                invalidateOptionsMenu();
 
                 return false;
             }
