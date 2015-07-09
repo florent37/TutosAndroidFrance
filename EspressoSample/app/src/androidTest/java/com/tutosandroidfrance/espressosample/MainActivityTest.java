@@ -3,6 +3,7 @@ package com.tutosandroidfrance.espressosample;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.hamcrest.Description;
@@ -15,11 +16,14 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.isA;
 import static org.hamcrest.core.IsNot.not;
 
 /**
@@ -39,6 +43,13 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     }
 
     @Test
+    public void testContainsIntialViews() {
+        onView(withId(R.id.editText)).check(matches(isDisplayed()));
+        onView(withText("LOGIN")).check(matches(isDisplayed()));
+        onView(withId(R.id.text)).check(matches(not(isDisplayed())));
+    }
+
+    @Test
     public void testClickLogin_emptyText() {
         onView(withText("LOGIN")).perform(click());
 
@@ -54,10 +65,9 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         //LOGIN disapear
         onView(withText("LOGIN")).check(matches(not(isDisplayed())));
+        onView(withId(R.id.editText)).check(matches(not(isDisplayed())));
 
         onView(withId(R.id.text)).check(matches(allOf(isDisplayed(), withText("Hello florent"))));
-
-        onView(withText("LOGOUT")).check(matches(isDisplayed()));
     }
 
 }
