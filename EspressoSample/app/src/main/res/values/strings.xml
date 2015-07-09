@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">EspressoSample</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="login">LOGIN</string>
+    <string name="logout">LOGOUT</string>
+    <string name="yourName">Your name</string>
+</resources>
