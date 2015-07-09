@@ -39,11 +39,16 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     @Before
     public void setUp() throws Exception {
         super.setUp();
+
+        //doit être appelé dans le setup
         getActivity();
     }
 
     @Test
     public void testContainsIntialViews() {
+        //je vais tester ici que l'EditText et le bouton LOGIN sont bien affichés
+        //mais que le TextView "Hello XXXX" n'est pas présent
+        
         onView(withId(R.id.editText)).check(matches(isDisplayed()));
         onView(withText("LOGIN")).check(matches(isDisplayed()));
         onView(withId(R.id.text)).check(matches(not(isDisplayed())));
@@ -51,22 +56,27 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
     @Test
     public void testClickLogin_emptyText() {
+        //je vais cliquer sur LOGIN, mais sans avoir écrit de texte dans l'EditText
         onView(withText("LOGIN")).perform(click());
 
-        //if editText empty, LOGIN always displayed
+        //Ce qui ne devrait pas cacher le bouton LOGIN, ni afficher le "Hello XXXX"
         onView(withText("LOGIN")).check(matches(isDisplayed()));
+        onView(withId(R.id.text)).check(matches(not(isDisplayed())));
     }
 
     @Test
     public void testClickLogin_withText() {
+        //je vais écrire "florent" dans l'EditText
         onView(withId(R.id.editText)).perform(typeText("florent"));
 
+        //puis clicker sur le bouton LOGIN
         onView(withText("LOGIN")).perform(click());
 
-        //LOGIN disapear
+        //ce qui devrait faire disparaitre LOGIN et l'EditText
         onView(withText("LOGIN")).check(matches(not(isDisplayed())));
         onView(withId(R.id.editText)).check(matches(not(isDisplayed())));
 
+        //puis afficher "Hello florent"
         onView(withId(R.id.text)).check(matches(allOf(isDisplayed(), withText("Hello florent"))));
     }
 
