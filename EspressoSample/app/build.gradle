@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
 
+        //on indique à android d'effectuer ses tests fonctionnels avec AndroidJUnitRunner
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -21,10 +22,13 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    //vos dépendances usuelles
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.android.support:cardview-v7:22.2.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
 
+    //les dépendances requises par Espresso
     compile 'com.android.support:support-annotations:22.2.0'
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'

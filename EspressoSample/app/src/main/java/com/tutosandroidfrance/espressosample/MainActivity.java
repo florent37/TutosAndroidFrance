@@ -11,43 +11,45 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity {
 
-    Button login;
-    EditText editText;
-    View loginContainer;
-    View textContainer;
-    TextView text;
+    @Bind(R.id.login) Button login;
+    @Bind(R.id.editText) EditText editText;
+    @Bind(R.id.loginContainer) View loginContainer;
+    @Bind(R.id.textContainer) View textContainer;
+    @Bind(R.id.text) TextView text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        login = (Button) findViewById(R.id.login);
-        editText = (EditText) findViewById(R.id.editText);
-        loginContainer = findViewById(R.id.loginContainer);
-        textContainer = findViewById(R.id.textContainer);
-        text = (TextView) findViewById(R.id.text);
+        ButterKnife.bind(this);
+    }
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = editText.getText().toString();
-                if(!name.isEmpty()) {
-                    //close keyboard
-                    InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    @OnClick(R.id.login)
+    public void onLoginClicked(){
+        String name = editText.getText().toString();
+        if(!name.isEmpty()) {
+            closeKeyboard(editText);
 
-                    //hide views
-                    loginContainer.setVisibility(View.GONE);
-                    textContainer.setVisibility(View.VISIBLE);
+            //hide views
+            loginContainer.setVisibility(View.GONE);
+            textContainer.setVisibility(View.VISIBLE);
 
-                    //display
-                    text.setText("Hello " + name);
-                }
-            }
-        });
+            //display
+            text.setText("Hello " + name);
+        }
+    }
+
+    private void closeKeyboard(View view){
+        //close keyboard
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }

@@ -32,6 +32,7 @@ import static org.hamcrest.core.IsNot.not;
 @LargeTest
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
+    //on précise que l'on veux tester un MainActivity
     public MainActivityTest() {
         super(MainActivity.class);
     }
@@ -48,12 +49,13 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void testContainsIntialViews() {
         //je vais tester ici que l'EditText et le bouton LOGIN sont bien affichés
         //mais que le TextView "Hello XXXX" n'est pas présent
-        
+
         onView(withId(R.id.editText)).check(matches(isDisplayed()));
         onView(withText("LOGIN")).check(matches(isDisplayed()));
         onView(withId(R.id.text)).check(matches(not(isDisplayed())));
     }
 
+    //teste le comportement de l'écran si on appuie sur LOGIN sans avoir écrit de nom
     @Test
     public void testClickLogin_emptyText() {
         //je vais cliquer sur LOGIN, mais sans avoir écrit de texte dans l'EditText
