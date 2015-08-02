@@ -8,19 +8,19 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Ce module sert à fournir le contexte courant (l'application)
+ * Ce module sert à fournir le contexte de l'application
  */
 @Module
-public class AppModule {
+public class ContextModule {
 
-    private final Application context;
+    private final Context context;
 
     /**
      * Nous ajoutons volontairement un constructeur qui prend un Context en entrée,
      * afin de lui fournir au runtime lors de la création de l'Application
      * @param context l'application créée
      */
-    public AppModule(Application context) {
+    public ContextModule(Context context) {
         this.context = context;
     }
 

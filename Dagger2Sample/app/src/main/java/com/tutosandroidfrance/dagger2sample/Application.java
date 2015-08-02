@@ -1,31 +1,36 @@
 package com.tutosandroidfrance.dagger2sample;
 
-import android.content.Context;
-
-import com.tutosandroidfrance.dagger2sample.dagger2.component.AppComponent;
-import com.tutosandroidfrance.dagger2sample.dagger2.component.DaggerAppComponent;
-import com.tutosandroidfrance.dagger2sample.dagger2.module.AppModule;
+import com.tutosandroidfrance.dagger2sample.dagger2.component.DaggerGithubComponent;
+import com.tutosandroidfrance.dagger2sample.dagger2.component.GithubComponent;
+import com.tutosandroidfrance.dagger2sample.dagger2.module.ContextModule;
 
 /**
  * Created by florentchampigny on 03/06/15.
  */
 public class Application extends android.app.Application {
 
-    private AppComponent appComponent;
+    protected GithubComponent githubComponent;
+    protected static Application application;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        //on créé le AppComponent en lui passant comme Context l'application
-        appComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
+        application = this;
+
+        //je créé mon githubcompoent, et le stock dans mon application
+        githubComponent = DaggerGithubComponent.builder()
+                .contextModule(new ContextModule(getApplicationContext()))
                 .build();
     }
 
+    public static Application app() {
+        return application;
+    }
+
     //permet aux activités via .getApplication().appComponent() de récupérer le AppComponent
-    public AppComponent appComponent() {
-        return appComponent;
+    public GithubComponent component() {
+        return githubComponent;
     }
 
 }

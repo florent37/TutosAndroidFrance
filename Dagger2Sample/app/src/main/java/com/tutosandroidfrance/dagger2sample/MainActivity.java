@@ -27,15 +27,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Je demande à Dagger de me créer le GithubComponent
-        GithubComponent githubComponent = DaggerGithubComponent.builder()
-                .appComponent(((Application) getApplication()).appComponent())
-                        //.storageModule(new StorageModule())
-                        //.restModule(new RestModule())
-                .build();
-        //en lui indiquant d'utiliser comme appComponent celui créé dans mon Application
-
-        githubComponent.inject(this);
+        //je demande à mon GithubComponent d'injecter les dépendances dans cette activity
+        Application.app().component().inject(this);
 
         //une fois le GithubComponent créer par Dagger2, nous pouvons récupérer le GithubService qu'il a créé
         // GithubService githubService = githubComponent.githubService();

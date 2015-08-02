@@ -1,5 +1,7 @@
 package com.tutosandroidfrance.dagger2sample.dagger2.module;
 
+import android.content.Context;
+
 import com.tutosandroidfrance.dagger2sample.BuildConfig;
 import com.tutosandroidfrance.dagger2sample.storage.Storage;
 import com.tutosandroidfrance.dagger2sample.webservice.GithubService;
@@ -17,7 +19,17 @@ import retrofit.android.AndroidLog;
  * Dagger2 va le crééer de façon unique (Singleton) et sera accéssible depuis le GithubComponent
  */
 @Module
-public class RestModule {
+public class GithubModule {
+
+    /**
+     * Retourne un Storage à Dagger2, construit avec le Context, injecté par Dagger2
+     * @param context Contexte de l'application, fournit par Dagger2
+     */
+    @Provides
+    @Singleton
+    public Storage provideStorage(Context context){
+        return new Storage(context);
+    }
 
     /**
      * Créé le GithubService via Retrofit, qui réaliser les appels webservices,
