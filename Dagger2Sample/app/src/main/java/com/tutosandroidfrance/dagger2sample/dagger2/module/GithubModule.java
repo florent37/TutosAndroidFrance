@@ -15,8 +15,8 @@ import retrofit.RestAdapter;
 import retrofit.android.AndroidLog;
 
 /**
- * Ce module permet de récupérer le GithubService
- * Dagger2 va le crééer de façon unique (Singleton) et sera accéssible depuis le GithubComponent
+ * Ce module permet de récupérer le GithubService et le Storage
+ * Dagger2 va les crééer de façon unique (Singleton) et ils seront accéssibles depuis le GithubComponent
  */
 @Module
 public class GithubModule {
