@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/montain"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+       >
+
+        <Button
+            android:id="@+id/alpha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alpha" />
+
+        <Button
+            android:id="@+id/translatedX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TranslationX" />
+
+        <Button
+            android:id="@+id/translatedY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TranslationY" />
+
+        <Button
+            android:id="@+id/scale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="scale" />
+
+        <Button
+            android:id="@+id/together"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="together" />
+
+        <Button
+            android:id="@+id/sequentially"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sequentially" />
+
+        <Button
+            android:id="@+id/newApi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="New Api" />
+
+    </LinearLayout>
+
+</LinearLayout>
