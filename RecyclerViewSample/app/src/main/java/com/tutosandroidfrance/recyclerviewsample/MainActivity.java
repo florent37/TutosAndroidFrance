@@ -1,19 +1,15 @@
 package com.tutosandroidfrance.recyclerviewsample;
 
-import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
 
@@ -27,10 +23,10 @@ public class MainActivity extends ActionBarActivity {
         //remplir la ville
         ajouterVilles();
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
 
         //définit l'agencement des cellules, ici de façon verticale, comme une ListView
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //pour adapter en grille comme une RecyclerView, avec 2 cellules par ligne
         //recyclerView.setLayoutManager(new GridLayoutManager(this,2));
@@ -48,7 +44,5 @@ public class MainActivity extends ActionBarActivity {
         cities.add(new MyObject("Italie","http://retouralinnocence.com/wp-content/uploads/2013/05/Hotel-en-Italie-pour-les-Vacances2.jpg"));
         cities.add(new MyObject("Russie","http://www.choisir-ma-destination.com/uploads/_large_russie-moscou2.jpg"));
     }
-
-
 
 }
