@@ -21,8 +21,8 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
 
         //c'est ici que l'on fait nos findView
 
-        textViewView = (TextView) itemView.findViewById(R.id.text);
-        imageView = (ImageView) itemView.findViewById(R.id.image);
+        textViewView = itemView.findViewById(R.id.text);
+        imageView = itemView.findViewById(R.id.image);
     }
 
     //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
